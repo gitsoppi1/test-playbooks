@@ -1,0 +1,16 @@
+---
+- hosts: web
+  tasks:
+   - name: install apache and git packages
+     package: name={{item}} state=present
+     with_items:
+       - httpd
+     # - git
+       - wget
+     become: yes
+
+   - name: start service httpd
+     service: name=httpd state=started enabled=yes
+     become: yes
+ # - name: get repo from git hub
+ #   git: repo=https://github.com/demoglot/html-sample-food.git dest=/var/www/html

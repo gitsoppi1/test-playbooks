@@ -1,0 +1,24 @@
+---
+- hosts: 172.31.35.190 
+  tasks:
+   - name:
+     template:
+       src: /opt/gone.j2
+       dest: /etc/hostname
+       owner: root
+       group: root
+       mode: '0644'
+     become: yes
+   - name: reboot host
+     shell: /sbin/shutdown -r now
+     become: true
+   - name: waiting for server booting up
+     local_action: wait_for
+     args:
+       host: ''
+       port: 22
+       delay: 30
+       timeout: 300
+       state: started
+     become: true
+

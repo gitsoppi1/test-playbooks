@@ -1,0 +1,16 @@
+---
+- hosts: web
+  tasks:
+  - name: Find serverindex.xml files in the folder recursively
+    find:
+      paths: /home/ec2-user/testfiles
+      patterns: "serverindex.xml"
+      recurse: yes
+    register: files_matched
+  - name: Replace the text in the retrieved files
+    replace:
+      path: "{{ item.path}}"
+      regexp: 'USSLTCSNW7148'
+      replace: "USSLTCSNW9999"
+    with_items:
+      - "{{ files_matched.files }}"

@@ -1,0 +1,16 @@
+---
+- hosts: 172.31.35.190
+  vars_prompt:
+   - name: hostname
+     prompt: "enter hostname"
+     private: no 
+  tasks:
+   - name: changing hostnames
+     lineinfile:
+       dest: /opt/swapna
+       regexp: 'one'
+       line: '{{hostname}}'
+       state: present
+     become: yes
+
+

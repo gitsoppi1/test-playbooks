@@ -1,0 +1,35 @@
+---
+- hosts: web 
+  vars:
+     hostname: "{{ lookup('file', '/home/ec2-user/hostname.txt') }}"
+     hostname1: "{{ lookup('file', '/home/ec2-user/hostname1.txt') }}"
+     # hostname2: "{{ lookup('file', '/home/ec2-user/hostname2.txt') }}" 
+  tasks:
+   - name: Find serverindex.xml files in the folder
+     find:
+       paths: /
+       patterns: "soppi"
+       recurse: yes
+     register: result
+     become: yes
+   - debug: msig="{{ result }}"
+   - name: copy
+     shell: echo {{ result }} >/home/ec2-user/kk
+   - name: changing hostnames
+     replace:
+      i path: "{{ item.path }}"
+       regexp: 'one'
+       replace: '{{ hostname }}'
+       backup: yes
+     become: yes
+     with_items: "{{ result.files }}"
+    - name: changing hostnames
+      replace:
+        path: "{{ item.path }}"
+        regexp: ' SIT3APPPORTAL3'
+        replace: '{{ hostname1 }}'
+        backup: yes
+      become: yes
+      with_items: "{{ result.files }}"
+
+

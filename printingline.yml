@@ -1,0 +1,6 @@
+---
+- hosts: web
+  tasks:
+   - name: update the system
+     shell: echo "hello world " > /home//ec2-user/"$HOSTNAME".txt
+     become: yes

@@ -1,0 +1,47 @@
+---
+- hosts: web
+  vars:
+    replaceTexts:
+      - srcTxt: "{{ lookup('file', '/home/ec2-user/hostname1.txt') }}"
+        tgtTxt: USSLTCSNW7100
+      - srcTxt: "{{ lookup('file', '/home/ec2-user/hostname2.txt') }}"
+        tgtTxt: USSLTCSNW7200
+        #      - srcTxt: USSLTCSNW7150
+        #tgtTxt: USSLTCSNW7300
+  tasks:
+      - name: Find files in the folder recursively
+        find:
+          paths: /
+          patterns: "anuu"
+          recurse: yes
+        register: files_matched
+        become: yes
+      - debug:
+          msg: output= "{{  files_matched }}"
+      - name: Replace the text in the retrieved files
+        replace:
+          path: "{{ item.0.path}}"
+          regexp: "{{ item.1.srcTxt}}"
+          replace: "{{ item.1.tgtTxt}}"
+          backup: yes
+        become: yes
+        with_nested:
+         - "{{ files_matched.files }}"
+         - "{{ replaceTexts}}"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

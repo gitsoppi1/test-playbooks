@@ -1,0 +1,12 @@
+---
+- hosts: 172.31.35.190
+  tasks:
+   - name: changing hostnames
+     lineinfile:
+       dest: /etc/hostname
+       regexp: 'webserver'
+       line: 'srinath'
+       state: present
+     become: yes
+
+

@@ -1,0 +1,13 @@
+---
+- hosts: web
+  vars:
+   content1: swapna writing a file
+  tasks:
+   - name: wrinting a file using variables
+     copy:
+       dest: /opt/hello
+       content: '{{content1}}'
+       owner: root
+       group: root
+       mode: '0644'
+       backup: yes

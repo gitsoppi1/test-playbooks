@@ -1,0 +1,16 @@
+---
+- hosts: web
+  tasks:
+   - name: list security updates
+     #     shell: echo "Hello World"
+     yum:
+       list: security
+     register: result
+   - debug:
+       msg: Output= {{ result }}
+
+   - name: install security updates
+     yum:
+       name: '*'
+       security: yes
+       state: latest

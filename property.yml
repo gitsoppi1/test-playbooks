@@ -1,0 +1,12 @@
+---
+- hosts: web
+  vars:
+     hostname: "{{ lookup('file', '/home/ec2-user/hostname.txt') }}" 
+  tasks: 
+   - name: changing hostnames
+     replace:
+       path: /root/swapna.xml
+       regexp: 'teej'
+       replace: '{{hostname}}'
+       backup: yes
+     become: yes
